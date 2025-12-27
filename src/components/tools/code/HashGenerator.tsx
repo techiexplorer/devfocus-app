@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { ToolShell } from '../../shared/ToolShell';
 import type { Tool } from '../../../config/tools';
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Copy } from "lucide-react";
 
 export function HashGenerator({ tool }: { tool: Tool }) {
     const [input, setInput] = useState('');
@@ -40,44 +44,56 @@ export function HashGenerator({ tool }: { tool: Tool }) {
         generateHashes();
     }, [input]);
 
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text);
+    };
+
     return (
         <ToolShell title={tool.name} description={tool.description}>
-            <div className="tool-form-group">
-                <label className="tool-label">Input Text</label>
-                <textarea
-                    className="tool-textarea"
-                    rows={3}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="Type something here..."
-                />
-            </div>
+            <div className="space-y-6">
+                <div className="space-y-2">
+                    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        Input Text
+                    </label>
+                    <Textarea
+                        rows={3}
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        placeholder="Type something here..."
+                        className="font-mono text-sm"
+                    />
+                </div>
 
-            <div className="tool-form-group">
-                <label className="tool-label">Hashes</label>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '0.5rem' }}>
-                    {Object.entries(hashes).map(([algo, hash]) => (
-                        <div key={algo} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-dim)', fontWeight: 600 }}>{algo}</span>
-                            <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                <input
-                                    readOnly
-                                    className="tool-input"
-                                    value={hash}
-                                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}
-                                />
-                                <button
-                                    className="btn btn-secondary"
-                                    onClick={() => navigator.clipboard.writeText(hash)}
-                                    title="Copy"
-                                    style={{ minWidth: '60px' }}
-                                >
-                                    Copy
-                                </button>
+                <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Hashes</h3>
+                    <div className="space-y-4">
+                        {Object.entries(hashes).map(([algo, hash]) => (
+                            <div key={algo} className="space-y-1.5">
+                                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{algo}</span>
+                                <div className="flex gap-2">
+                                    <Input
+                                        readOnly
+                                        value={hash}
+                                        className="font-mono text-xs"
+                                    />
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        onClick={() => copyToClipboard(hash)}
+                                        title="Copy"
+                                        className="shrink-0"
+                                    >
+                                        <Copy className="h-4 w-4" />
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                    {!input && <div style={{ color: 'var(--color-text-dim)', fontStyle: 'italic' }}>Start typing to generate hashes securely in real-time.</div>}
+                        ))}
+                        {!input && (
+                            <div className="text-sm text-muted-foreground italic py-8 text-center border rounded-md border-dashed">
+                                Start typing above to generate hashes securely in real-time.
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </ToolShell>

@@ -39,7 +39,7 @@ export function Greeting() {
     };
 
     return (
-        <div className="flex items-center gap-2 text-sm whitespace-nowrap absolute left-1/2 -translate-x-1/2 hidden md:flex">
+        <div className="hidden md:flex items-center gap-2 text-sm whitespace-nowrap">
             <span className="text-muted-foreground">{greeting}</span>
             {isEditing ? (
                 <Input

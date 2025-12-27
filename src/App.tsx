@@ -12,7 +12,7 @@ function App() {
     <BrowserRouter>
       <GlobalSearch />
       <Header />
-      <main style={{ padding: 'var(--spacing-lg)', maxWidth: '1400px', margin: '0 auto', width: '100%', flex: 1 }}>
+      <main className="flex-1 w-full max-w-screen-2xl mx-auto p-3 sm:p-6">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { ToolShell } from '../../shared/ToolShell';
 import type { Tool } from '../../../config/tools';
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 export function CodeMinifier({ tool }: { tool: Tool }) {
     const [input, setInput] = useState('');
@@ -18,77 +20,72 @@ export function CodeMinifier({ tool }: { tool: Tool }) {
                 res = "Invalid JSON";
             }
         } else if (type === 'css') {
-            // Simple regex minification for CSS (removes newlines, comments, extra spaces)
             res = res
-                .replace(/\/\*[\s\S]*?\*\//g, "") // Remove comments
-                .replace(/\s+/g, " ") // Collapse whitespace
-                .replace(/\s*([{}:;,])\s*/g, "$1") // Remove space around chars
-                .replace(/;\}/g, "}") // Remove trailing semicolon
+                .replace(/\/\*[\s\S]*?\*\//g, "")
+                .replace(/\s+/g, " ")
+                .replace(/\s*([{}:;,])\s*/g, "$1")
+                .replace(/;\}/g, "}")
                 .trim();
         } else if (type === 'js') {
-            // Very basic JS minification (WARNING: Basic)
-            // ideally use a library, but sticking to lightweight regex for "simple" usage
             res = res
-                // Remove single line comments
                 .replace(/\/\/.*/g, "")
-                // Remove multi line comments
                 .replace(/\/\*[\s\S]*?\*\//g, "")
-                // Collapse whitespace (riskier in JS due to strings/template literals, keeping safe mostly)
                 .replace(/\s+/g, " ");
-            // Note: Real JS minification requires AST usually.
         }
         setOutput(res);
     };
 
     return (
         <ToolShell title={tool.name} description={tool.description}>
-            <div className="tool-form-group">
-                <label className="tool-label">Type</label>
-                <div style={{ display: 'flex', gap: '1rem' }}>
-                    <label style={{ display: 'flex', gap: '0.5rem' }}>
-                        <input type="radio" name="min-type" checked={type === 'css'} onChange={() => setType('css')} /> CSS
-                    </label>
-                    <label style={{ display: 'flex', gap: '0.5rem' }}>
-                        <input type="radio" name="min-type" checked={type === 'json'} onChange={() => setType('json')} /> JSON
-                    </label>
-                    <label style={{ display: 'flex', gap: '0.5rem' }}>
-                        <input type="radio" name="min-type" checked={type === 'js'} onChange={() => setType('js')} /> JS (Basic)
-                    </label>
+            <div className="space-y-6">
+                <div className="space-y-3">
+                    <label className="text-sm font-medium leading-none">Type</label>
+                    <div className="flex gap-4">
+                        {(['css', 'json', 'js'] as const).map((t) => (
+                            <label key={t} className="flex items-center gap-2 text-sm cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="min-type"
+                                    checked={type === t}
+                                    onChange={() => setType(t)}
+                                    className="accent-primary"
+                                />
+                                {t.toUpperCase()} {t === 'js' && '(Basic)'}
+                            </label>
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            <div className="tool-form-group">
-                <label className="tool-label">Input Code</label>
-                <textarea
-                    className="tool-textarea"
-                    rows={10}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                />
-            </div>
-
-            <div className="tool-actions">
-                <button className="btn btn-primary" onClick={minify}>Minify</button>
-            </div>
-
-            {output && (
-                <div className="tool-form-group" style={{ marginTop: '2rem' }}>
-                    <label className="tool-label">Minified Output</label>
-                    <textarea
-                        className="tool-textarea"
+                <div className="space-y-2">
+                    <label className="text-sm font-medium leading-none">Input Code</label>
+                    <Textarea
                         rows={10}
-                        value={output}
-                        readOnly
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        className="font-mono text-xs"
                     />
-                    <button
-                        className="btn btn-secondary"
-                        style={{ marginTop: '0.5rem', width: 'fit-content' }}
-                        onClick={() => navigator.clipboard.writeText(output)}
-                    >
-                        Copy Output
-                    </button>
                 </div>
-            )}
+
+                <Button onClick={minify}>Minify</Button>
+
+                {output && (
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium leading-none">Minified Output</label>
+                        <Textarea
+                            rows={10}
+                            value={output}
+                            readOnly
+                            className="font-mono text-xs bg-muted"
+                        />
+                        <Button
+                            variant="secondary"
+                            onClick={() => navigator.clipboard.writeText(output)}
+                        >
+                            Copy Output
+                        </Button>
+                    </div>
+                )}
+            </div>
         </ToolShell>
     );
 }

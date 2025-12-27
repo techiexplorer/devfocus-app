@@ -26,65 +26,70 @@ export function Home() {
     })).filter((category: ToolCategory) => category.children.length > 0);
 
     return (
-        <div className="space-y-8">
-            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between">
-                <div className="relative flex-1 max-w-lg">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <div className="space-y-6">
+            <div className="flex gap-4 items-center max-w-2xl mx-auto w-full">
+                <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                     <Input
                         type="text"
                         placeholder="Search tools..."
-                        className="pl-9"
+                        className="pl-9 pr-12 h-9 bg-background/50 backdrop-blur-sm transition-all focus:bg-background focus:ring-2 focus:ring-primary/20"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center gap-1">
+                        <span className="text-[10px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded border border-border/50">
+                            <span className="text-[10px]">⌘</span>K
+                        </span>
+                    </div>
                 </div>
 
-                <div className="flex items-center gap-1 bg-muted p-1 rounded-md self-end sm:self-auto">
+                <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-md shrink-0">
                     <Button
                         variant="ghost"
                         size="icon"
-                        className={`h-8 w-8 rounded-sm ${layout === 'grid' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-background/50'}`}
+                        className={`h-7 w-7 rounded-sm ${layout === 'grid' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-background/50'}`}
                         onClick={() => setLayout('grid')}
                         title="Grid View"
                     >
-                        <LayoutGrid className="h-4 w-4" />
+                        <LayoutGrid className="h-3.5 w-3.5" />
                     </Button>
                     <Button
                         variant="ghost"
                         size="icon"
-                        className={`h-8 w-8 rounded-sm ${layout === 'list' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-background/50'}`}
+                        className={`h-7 w-7 rounded-sm ${layout === 'list' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-background/50'}`}
                         onClick={() => setLayout('list')}
                         title="List View"
                     >
-                        <ListIcon className="h-4 w-4" />
+                        <ListIcon className="h-3.5 w-3.5" />
                     </Button>
                 </div>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-6">
                 {filteredCategories.map((category: ToolCategory) => (
-                    <section key={category.id} className="space-y-4">
-                        <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">{category.name}</h2>
+                    <section key={category.id} className="space-y-3">
+                        <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider pl-1">{category.name}</h2>
 
                         <div className={
                             layout === 'grid'
-                                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+                                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"
                                 : "flex flex-col gap-2"
                         }>
                             {category.children.map((tool: Tool) => (
                                 <Link to={`/tool/${tool.id}`} key={tool.id} className="block group">
-                                    <Card className={`h-full transition-all duration-200 hover:shadow-md hover:border-primary/50 group-hover:scale-[1.01] ${layout === 'list' ? 'flex flex-row items-center p-4' : ''}`}>
+                                    <Card className={`h-full transition-all duration-200 hover:shadow-md hover:border-primary/50 group-hover:-translate-y-0.5 ${layout === 'list' ? 'flex flex-row items-center p-3' : ''}`}>
                                         {layout === 'grid' ? (
-                                            <CardHeader>
-                                                <CardTitle className="text-base">{tool.name}</CardTitle>
-                                                <CardDescription className="line-clamp-2 mt-2">{tool.description}</CardDescription>
+                                            <CardHeader className="p-4">
+                                                <CardTitle className="text-sm font-semibold">{tool.name}</CardTitle>
+                                                <CardDescription className="text-xs line-clamp-2 mt-1.5">{tool.description}</CardDescription>
                                             </CardHeader>
                                         ) : (
                                             <>
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="font-semibold truncate">{tool.name}</div>
+                                                <div className="flex-1 min-w-0 px-1">
+                                                    <div className="text-sm font-semibold truncate">{tool.name}</div>
                                                 </div>
-                                                <div className="text-sm text-muted-foreground flex-1 truncate px-4 hidden sm:block">
+                                                <div className="text-xs text-muted-foreground flex-1 truncate px-4 hidden sm:block">
                                                     {tool.description}
                                                 </div>
                                             </>
@@ -97,7 +102,7 @@ export function Home() {
                 ))}
 
                 {filteredCategories.length === 0 && (
-                    <div className="text-center py-12 text-muted-foreground">
+                    <div className="text-center py-12 text-muted-foreground text-sm">
                         No tools found matching "{searchTerm}"
                     </div>
                 )}

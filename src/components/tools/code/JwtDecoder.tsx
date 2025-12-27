@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { ToolShell } from '../../shared/ToolShell';
 import type { Tool } from '../../../config/tools';
+import { Textarea } from "@/components/ui/textarea";
 
 export function JwtDecoder({ tool }: { tool: Tool }) {
     const [token, setToken] = useState('');
@@ -48,42 +49,43 @@ export function JwtDecoder({ tool }: { tool: Tool }) {
 
     return (
         <ToolShell title={tool.name} description={tool.description}>
-            <div className="tool-form-group">
-                <label className="tool-label">JWT Token</label>
-                <textarea
-                    className="tool-textarea"
-                    rows={5}
-                    value={token}
-                    onChange={(e) => setToken(e.target.value)}
-                    placeholder="ey..."
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}
-                />
-            </div>
-
-            {decoded && (
-                <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
-                    <div>
-                        <label className="tool-label">Header</label>
-                        <textarea
-                            readOnly
-                            className="tool-textarea"
-                            rows={10}
-                            value={decoded.error || (decoded.header ? JSON.stringify(decoded.header, null, 2) : 'Invalid Header')}
-                            style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', backgroundColor: decoded.error ? '#fff0f0' : 'var(--color-bg)' }}
-                        />
-                    </div>
-                    <div>
-                        <label className="tool-label">Payload</label>
-                        <textarea
-                            readOnly
-                            className="tool-textarea"
-                            rows={10}
-                            value={decoded.error || (decoded.payload ? JSON.stringify(decoded.payload, null, 2) : 'Invalid Payload')}
-                            style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', backgroundColor: decoded.error ? '#fff0f0' : 'var(--color-bg)' }}
-                        />
-                    </div>
+            <div className="space-y-6">
+                <div className="space-y-2">
+                    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        JWT Token
+                    </label>
+                    <Textarea
+                        rows={5}
+                        value={token}
+                        onChange={(e) => setToken(e.target.value)}
+                        placeholder="ey..."
+                        className="font-mono text-xs"
+                    />
                 </div>
-            )}
+
+                {decoded && (
+                    <div className="grid gap-6 md:grid-cols-2">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium leading-none">Header</label>
+                            <Textarea
+                                readOnly
+                                rows={10}
+                                value={decoded.error || (decoded.header ? JSON.stringify(decoded.header, null, 2) : 'Invalid Header')}
+                                className={`font-mono text-xs ${decoded.error ? 'bg-destructive/10 text-destructive' : ''}`}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium leading-none">Payload</label>
+                            <Textarea
+                                readOnly
+                                rows={10}
+                                value={decoded.error || (decoded.payload ? JSON.stringify(decoded.payload, null, 2) : 'Invalid Payload')}
+                                className={`font-mono text-xs ${decoded.error ? 'bg-destructive/10 text-destructive' : ''}`}
+                            />
+                        </div>
+                    </div>
+                )}
+            </div>
         </ToolShell>
     );
 }
