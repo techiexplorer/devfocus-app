@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+# devfocus.app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**devfocus.app** is a collection of essential developer tools designed to be fast, secure, and offline-capable. 
 
-Currently, two official plugins are available:
+Key principles:
+- **Local First:** All tools run entirely in your browser. No data is ever sent to a server.
+- **Privacy Focused:** What you type, paste, or generate stays on your device.
+- **Minimalist:** Clean interface with no distractions, ads, or cookies.
+- **Open Source:** Transparent code that you can trust.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- **Global Search:** Quickly find the tool you need.
+- **Categorized Tools:** Organized collection of developer utilities (e.g., formatters, converters, generators).
+- **Dark/Light Mode:** Full theme support for your preference.
+- **Responsive Design:** Works great on desktop and mobile.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+Built with modern web technologies:
+- **Framework:** [React 19](https://react.dev/)
+- **Build Tool:** [Vite](https://vitejs.dev/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Routing:** [React Router v7](https://reactrouter.com/)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+To run the project locally:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/techiexplorer/devfocus-app.git
+    cd devfocus-app
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+4.  Open [http://localhost:5174](http://localhost:5174) (or the port shown in your terminal) to view the app.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Contributing
+
+We welcome contributions! Whether you want to add a new tool, fix a bug, or improve documentation, your help is appreciated.
+
+### How to Contribute
+
+1.  **Fork the repository** to your own GitHub account.
+2.  **Clone your fork** locally.
+3.  **Create a new branch** for your feature or fix (`git checkout -b feature/amazing-new-tool`).
+4.  **Make your changes**. If adding a new tool, please follow the existing structure in `src/config/tools.ts` and components.
+5.  **Commit your changes** (`git commit -m 'Add amazing new tool'`).
+6.  **Push to your branch** (`git push origin feature/amazing-new-tool`).
+7.  **Open a Pull Request** against the `main` branch of this repository.
+
+
+Please ensure your code follows the existing style and conventions.
+
+## Credits
+
+**devfocus.app** is built completely using **Antigravity**.
+
+## License
+
+MIT
