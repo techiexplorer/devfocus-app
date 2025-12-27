@@ -1,7 +1,9 @@
+import { Link } from 'react-router-dom';
 import { useTime } from '../../hooks/useTime';
-import { useTheme } from '../../hooks/useTheme';
+import { useTheme } from '../theme-provider';
 import { Greeting } from './Greeting';
-import './Header.css';
+import { Button } from "@/components/ui/button";
+import { Github, Moon, Sun, Monitor } from "lucide-react";
 
 export function Header() {
     const time = useTime();
@@ -14,9 +16,9 @@ export function Header() {
     };
 
     const getThemeIcon = () => {
-        if (theme === 'system') return 'Auto';
-        if (theme === 'light') return 'Light';
-        return 'Dark';
+        if (theme === 'system') return <Monitor className="h-4 w-4" />;
+        if (theme === 'light') return <Sun className="h-4 w-4" />;
+        return <Moon className="h-4 w-4" />;
     };
 
     const formatTime = (date: Date, timeZone?: string) => {
@@ -34,54 +36,62 @@ export function Header() {
     };
 
     return (
-        <header className="app-header">
-            <div className="left-section">
-                <div className="brand">devfocus.app</div>
-                <nav className="nav-links">
-                    <a href="/about" className="nav-link">About</a>
-                </nav>
-            </div>
-
-            <Greeting />
-
-            <div className="right-section">
-                {/* Command K Hint */}
-                <div className="cmd-k-hint" title="Press Ctrl+K to search">
-                    <span className="cmd-key">Ctrl</span> + <span className="cmd-key">K</span>
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="container flex h-14 items-center justify-between px-4 sm:px-8 max-w-screen-2xl mx-auto">
+                <div className="flex items-center gap-6">
+                    <Link to="/" className="font-bold text-lg tracking-tight hover:text-primary transition-colors">
+                        devfocus.app
+                    </Link>
+                    <nav className="flex items-center gap-4 text-sm font-medium">
+                        <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">
+                            About
+                        </Link>
+                    </nav>
                 </div>
 
-                <div className="divider"></div>
+                <Greeting />
 
-                <div className="clocks">
-                    <div className="clock-item">
-                        <span className="clock-label">UTC</span>
-                        <span className="clock-value">{formatTime(time, 'UTC')}</span>
+                <div className="flex items-center gap-4">
+                    {/* Command K Hint - Hidden on mobile */}
+                    <div className="hidden md:flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded select-none cursor-default" title="Press Ctrl+K to search">
+                        <span className="text-[10px]">⌘</span>K
                     </div>
-                    <div className="clock-item">
-                        <span className="clock-label">Loc</span>
-                        <span className="clock-value">{formatTime(time)}</span>
+
+                    <div className="h-4 w-[1px] bg-border hidden md:block"></div>
+
+                    <div className="hidden md:flex items-center gap-4 font-mono text-xs">
+                        <div className="flex items-center gap-2">
+                            <span className="text-muted-foreground uppercase tracking-wider text-[10px]">UTC</span>
+                            <span className="tabular-nums font-medium">{formatTime(time, 'UTC')}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="text-muted-foreground uppercase tracking-wider text-[10px]">Loc</span>
+                            <span className="tabular-nums font-medium">{formatTime(time)}</span>
+                        </div>
+                    </div>
+
+                    <div className="h-4 w-[1px] bg-border hidden md:block"></div>
+
+                    <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" asChild>
+                            <a href="https://github.com/devfocus/app" target="_blank" rel="noopener noreferrer">
+                                <Github className="h-4 w-4" />
+                                <span className="sr-only">GitHub</span>
+                            </a>
+                        </Button>
+
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                            onClick={toggleTheme}
+                            title={`Theme: ${theme}`}
+                        >
+                            {getThemeIcon()}
+                            <span className="sr-only">Toggle theme</span>
+                        </Button>
                     </div>
                 </div>
-
-                <div className="divider"></div>
-
-                <a
-                    href="https://github.com/devfocus/app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="icon-link"
-                    title="View on GitHub"
-                >
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                </a>
-
-                <button
-                    className="theme-toggle"
-                    onClick={toggleTheme}
-                    title={`Theme: ${theme}`}
-                >
-                    {getThemeIcon()}
-                </button>
             </div>
         </header>
     );

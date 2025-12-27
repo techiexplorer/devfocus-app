@@ -1,52 +1,30 @@
-import { Link } from 'react-router-dom';
+import { ToolShell } from './shared/ToolShell';
 
 export function About() {
     return (
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: 'var(--spacing-lg)' }}>
-            <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', color: 'var(--color-text-dim)' }}>
-                ← Back to Tools
-            </Link>
-
-            <h1 style={{ fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-0.05em', marginBottom: '1rem' }}>
-                About DevFocus
-            </h1>
-
-            <p style={{ fontSize: '1.2rem', color: 'var(--color-text-dim)', lineHeight: 1.6, marginBottom: '2.5rem' }}>
-                A collection of essential developer tools, designed to be simple, fast, and privacy-focused.
-            </p>
-
-            <section style={{ marginBottom: '2.5rem' }}>
-                <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Our Goal</h2>
-                <p style={{ lineHeight: 1.6 }}>
-                    We wanted a "daily driver" toolset that doesn't feel cluttered or ad-heavy.
-                    DevFocus is built to be your go-to tab for quick transformations, formatting, and generation tasks.
-                    Everything runs client-side—your data never leaves your browser.
+        <ToolShell title="About" description="The philosophy behind devfocus.app">
+            <div className="prose dark:prose-invert max-w-none space-y-6">
+                <p className="text-lg leading-relaxed text-muted-foreground">
+                    <b>devfocus.app</b> is a collection of essential developer tools designed to be fast, secure, and offline-capable.
                 </p>
-            </section>
 
-            <section style={{ marginBottom: '2.5rem' }}>
-                <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Contribute</h2>
-                <p style={{ lineHeight: 1.6 }}>
-                    DevFocus is open source. You can contribute to the project, suggest new tools, or report bugs on our GitHub repository.
-                </p>
-                <div style={{ marginTop: '1rem' }}>
-                    <a
-                        href="https://github.com/devfocus/app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-primary"
-                        style={{ textDecoration: 'none', display: 'inline-block' }}
-                    >
-                        Visit on GitHub
-                    </a>
+                <div className="space-y-4">
+                    <h3 className="text-xl font-semibold">Core Principles</h3>
+                    <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+                        <li><strong className="text-foreground">Local First:</strong> All tools run entirely in your browser. No data is ever sent to a server.</li>
+                        <li><strong className="text-foreground">Privacy Focused:</strong> What you type, paste, or generate stays on your device.</li>
+                        <li><strong className="text-foreground">Minimalist:</strong> Clean interface with no distractions, ads, or cookies.</li>
+                        <li><strong className="text-foreground">Open Source:</strong> Transparent code that you can trust and contribute to.</li>
+                    </ul>
                 </div>
-            </section>
 
-            <section>
-                <p style={{ color: 'var(--color-text-dim)', fontSize: '0.9rem' }}>
-                    Version 1.0.0
-                </p>
-            </section>
-        </div>
+                <div className="space-y-4">
+                    <h3 className="text-xl font-semibold">Contribution</h3>
+                    <p className="text-muted-foreground">
+                        Found a bug or want to suggest a new tool? Check out the project on <a href="https://github.com/techiexplorer/devfocus-app" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4 hover:text-primary">GitHub</a>.
+                    </p>
+                </div>
+            </div>
+        </ToolShell>
     );
 }
