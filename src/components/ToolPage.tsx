@@ -13,6 +13,8 @@ import { JwtDecoder } from './tools/code/JwtDecoder';
 import { CodeDiffChecker } from './tools/code/CodeDiffChecker';
 import { CodeMinifier } from './tools/code/CodeMinifier';
 import { CodeBeautifier } from './tools/code/CodeBeautifier';
+import { ColorPicker } from './tools/image/ColorPicker';
+import { ImageResizer } from './tools/image/ImageResizer';
 
 export function ToolPage() {
     const { id } = useParams();
@@ -48,6 +50,10 @@ export function ToolPage() {
                 return <CodeMinifier tool={tool} />;
             case 'code-beautifier':
                 return <CodeBeautifier tool={tool} />;
+            case 'color-picker':
+                return <ColorPicker tool={tool} />;
+            case 'image-resizer':
+                return <ImageResizer tool={tool} />;
             default:
                 return (
                     <div style={{ textAlign: 'center', padding: '4rem' }}>
