@@ -44,6 +44,10 @@ Key principles:
 - **Stopwatch**
 - **Countdown Timer**
 - **Task Prioritization Matrix**
+- **Random Data Generator**
+- **CSV to JSON Converter**
+- **Time Zone Converter**
+- **Habit Tracker**
 
 ### Data
 - **Unit Converter**

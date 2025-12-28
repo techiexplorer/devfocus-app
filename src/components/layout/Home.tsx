@@ -76,27 +76,48 @@ export function Home() {
                                 ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"
                                 : "flex flex-col gap-2"
                         }>
-                            {category.children.map((tool: Tool) => (
-                                <Link to={`/tool/${tool.id}`} key={tool.id} className="block group">
-                                    <Card className={`h-full transition-all duration-200 hover:shadow-md hover:border-primary/50 group-hover:-translate-y-0.5 ${layout === 'list' ? 'flex flex-row items-center p-3' : ''}`}>
-                                        {layout === 'grid' ? (
-                                            <CardHeader className="p-4">
-                                                <CardTitle className="text-sm font-semibold">{tool.name}</CardTitle>
-                                                <CardDescription className="text-xs line-clamp-2 mt-1.5">{tool.description}</CardDescription>
-                                            </CardHeader>
-                                        ) : (
-                                            <>
-                                                <div className="flex-1 min-w-0 px-1">
-                                                    <div className="text-sm font-semibold truncate">{tool.name}</div>
-                                                </div>
-                                                <div className="text-xs text-muted-foreground flex-1 truncate px-4 hidden sm:block">
-                                                    {tool.description}
-                                                </div>
-                                            </>
-                                        )}
-                                    </Card>
-                                </Link>
-                            ))}
+                            {category.children.map((tool: Tool) => {
+                                const isImplemented = tool.isImplemented;
+                                return (
+                                    <Link
+                                        to={isImplemented ? `/tool/${tool.id}` : '#'}
+                                        key={tool.id}
+                                        className={`block group ${!isImplemented ? 'pointer-events-none' : ''}`}
+                                        aria-disabled={!isImplemented}
+                                    >
+                                        <Card className={`h-full transition-all duration-200 ${isImplemented
+                                                ? 'hover:shadow-md hover:border-primary/50 group-hover:-translate-y-0.5'
+                                                : 'opacity-50 grayscale bg-muted/50 cursor-not-allowed border-dashed'
+                                            } ${layout === 'list' ? 'flex flex-row items-center p-3' : ''}`}>
+                                            {layout === 'grid' ? (
+                                                <CardHeader className="p-4 relative">
+                                                    {!isImplemented && (
+                                                        <span className="absolute top-2 right-2 text-[10px] uppercase font-bold text-muted-foreground border px-1 rounded bg-background">
+                                                            Soon
+                                                        </span>
+                                                    )}
+                                                    <CardTitle className="text-sm font-semibold">{tool.name}</CardTitle>
+                                                    <CardDescription className="text-xs line-clamp-2 mt-1.5">{tool.description}</CardDescription>
+                                                </CardHeader>
+                                            ) : (
+                                                <>
+                                                    <div className="flex-1 min-w-0 px-1 flex items-center gap-2">
+                                                        <div className="text-sm font-semibold truncate">{tool.name}</div>
+                                                        {!isImplemented && (
+                                                            <span className="text-[10px] uppercase font-bold text-muted-foreground border px-1 rounded bg-background shrink-0">
+                                                                Soon
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <div className="text-xs text-muted-foreground flex-1 truncate px-4 hidden sm:block">
+                                                        {tool.description}
+                                                    </div>
+                                                </>
+                                            )}
+                                        </Card>
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </section>
                 ))}
