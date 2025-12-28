@@ -48,6 +48,11 @@ Key principles:
 - **Binary/Hexadecimal Converter**
 - **Statistical Calculator**
 
+### Security
+- **Password Generator**
+- **Encryption/Decryption Tool**
+- **Data Sanitizer**
+
 ## Tech Stack
 
 Built with modern web technologies:
