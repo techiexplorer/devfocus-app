@@ -42,6 +42,12 @@ Key principles:
 - **Countdown Timer**
 - **Task Prioritization Matrix**
 
+### Data
+- **Unit Converter**
+- **Math Expression Evaluator**
+- **Binary/Hexadecimal Converter**
+- **Statistical Calculator**
+
 ## Tech Stack
 
 Built with modern web technologies:
