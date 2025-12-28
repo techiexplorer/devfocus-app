@@ -23,6 +23,9 @@ import { UnitConverter } from './tools/data/UnitConverter';
 import { MathEvaluator } from './tools/data/MathEvaluator';
 import { BaseConverter } from './tools/data/BaseConverter';
 import { StatisticalCalculator } from './tools/data/StatisticalCalculator';
+import { PasswordGenerator } from './tools/security/PasswordGenerator';
+import { EncryptionTool } from './tools/security/EncryptionTool';
+import { DataSanitizer } from './tools/security/DataSanitizer';
 
 export function ToolPage() {
     const { id } = useParams();
@@ -78,6 +81,12 @@ export function ToolPage() {
                 return <BaseConverter tool={tool} />;
             case 'statistical-calc':
                 return <StatisticalCalculator tool={tool} />;
+            case 'password-generator':
+                return <PasswordGenerator tool={tool} />;
+            case 'encryption-tool':
+                return <EncryptionTool tool={tool} />;
+            case 'data-sanitizer':
+                return <DataSanitizer tool={tool} />;
             default:
                 return (
                     <div style={{ textAlign: 'center', padding: '4rem' }}>
