@@ -19,6 +19,10 @@ import { LoremIpsumGenerator } from './tools/productivity/LoremIpsumGenerator';
 import { Stopwatch } from './tools/productivity/Stopwatch';
 import { CountdownTimer } from './tools/productivity/CountdownTimer';
 import { TaskMatrix } from './tools/productivity/TaskMatrix';
+import { UnitConverter } from './tools/data/UnitConverter';
+import { MathEvaluator } from './tools/data/MathEvaluator';
+import { BaseConverter } from './tools/data/BaseConverter';
+import { StatisticalCalculator } from './tools/data/StatisticalCalculator';
 
 export function ToolPage() {
     const { id } = useParams();
@@ -66,6 +70,14 @@ export function ToolPage() {
                 return <CountdownTimer tool={tool} />;
             case 'task-matrix':
                 return <TaskMatrix tool={tool} />;
+            case 'unit-converter':
+                return <UnitConverter tool={tool} />;
+            case 'math-evaluator':
+                return <MathEvaluator tool={tool} />;
+            case 'base-converter':
+                return <BaseConverter tool={tool} />;
+            case 'statistical-calc':
+                return <StatisticalCalculator tool={tool} />;
             default:
                 return (
                     <div style={{ textAlign: 'center', padding: '4rem' }}>
