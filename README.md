@@ -35,6 +35,9 @@ Key principles:
 ### Image
 - **Color Picker**
 - **Image Resizer and Cropper**
+- **Image Optimizer**
+- **Icon Generator**
+- **Color Palette Generator**
 
 ### Productivity
 - **Lorem Ipsum Generator**
