@@ -19,6 +19,10 @@ import { LoremIpsumGenerator } from './tools/productivity/LoremIpsumGenerator';
 import { Stopwatch } from './tools/productivity/Stopwatch';
 import { CountdownTimer } from './tools/productivity/CountdownTimer';
 import { TaskMatrix } from './tools/productivity/TaskMatrix';
+import { RandomDataGenerator } from './tools/productivity/RandomDataGenerator';
+import { CsvConverter } from './tools/productivity/CsvConverter';
+import { TimezoneConverter } from './tools/productivity/TimezoneConverter';
+import { HabitTracker } from './tools/productivity/HabitTracker';
 import { UnitConverter } from './tools/data/UnitConverter';
 import { MathEvaluator } from './tools/data/MathEvaluator';
 import { BaseConverter } from './tools/data/BaseConverter';
@@ -78,6 +82,14 @@ export function ToolPage() {
                 return <CountdownTimer tool={tool} />;
             case 'task-matrix':
                 return <TaskMatrix tool={tool} />;
+            case 'random-data':
+                return <RandomDataGenerator tool={tool} />;
+            case 'csv-converter':
+                return <CsvConverter tool={tool} />;
+            case 'timezone-converter':
+                return <TimezoneConverter tool={tool} />;
+            case 'habit-tracker':
+                return <HabitTracker tool={tool} />;
             case 'unit-converter':
                 return <UnitConverter tool={tool} />;
             case 'math-evaluator':
