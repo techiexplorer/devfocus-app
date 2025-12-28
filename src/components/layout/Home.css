@@ -1,0 +1,148 @@
+.home-controls {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    align-items: center;
+}
+
+.tool-search {
+    flex: 1;
+}
+
+.search-input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.95rem;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--color-text-dim);
+}
+
+.layout-toggle {
+    display: flex;
+    gap: 2px;
+    background: var(--color-border);
+    padding: 2px;
+    border-radius: var(--radius-md);
+}
+
+.toggle-btn {
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--color-text-dim);
+    border-radius: var(--radius-sm);
+}
+
+.toggle-btn.active {
+    background: var(--color-bg);
+    color: var(--color-text);
+    box-shadow: var(--shadow-sm);
+}
+
+.category-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.category-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-dim);
+    margin-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-xs);
+}
+
+/* Grid Layout */
+.tool-container.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.tool-container.grid .tool-card {
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tool-container.grid .tool-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--color-text-dim);
+}
+
+.tool-container.grid .tool-name {
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
+    font-size: 0.95rem;
+}
+
+.tool-container.grid .tool-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-dim);
+    line-height: 1.3;
+}
+
+/* List Layout */
+.tool-container.list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background-color: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.tool-container.list .tool-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-bg);
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.tool-container.list .tool-card:hover {
+    background-color: var(--color-bg);
+    filter: brightness(0.98);
+}
+
+/* Note: brightness check for dark mode might need care, using simple faint background on hover is safer */
+.tool-container.list .tool-card:hover {
+    background-color: rgba(125, 125, 125, 0.05);
+}
+
+.tool-container.list .tool-name {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    min-width: 200px;
+}
+
+.tool-container.list .tool-desc {
+    color: var(--color-text-dim);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
