@@ -1,9 +1,0 @@
-.app-footer {
-    text-align: center;
-    padding: var(--spacing-lg);
-    color: var(--color-text-dim);
-    font-size: 0.9rem;
-    border-top: 1px solid var(--color-border);
-    margin-top: auto;
-    /* Push to bottom */
-}

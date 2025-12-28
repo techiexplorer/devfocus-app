@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
-import './Greeting.css';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { useTime } from '../../hooks/useTime';
+import { Input } from "../ui/input";
 
 export function Greeting() {
     const [name, setName] = useState(() => localStorage.getItem('user-name') || 'Developer');
     const [isEditing, setIsEditing] = useState(false);
-    const [greeting, setGreeting] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
+    const time = useTime();
 
     useEffect(() => {
         localStorage.setItem('user-name', name);
@@ -17,19 +18,13 @@ export function Greeting() {
         }
     }, [isEditing]);
 
-    useEffect(() => {
-        const updateGreeting = () => {
-            const hour = new Date().getHours();
-            if (hour >= 5 && hour < 12) setGreeting('Good morning,');
-            else if (hour >= 12 && hour < 17) setGreeting('Good afternoon,');
-            else if (hour >= 17 && hour < 21) setGreeting('Good evening,');
-            else setGreeting('Good luck working through the night,');
-        };
-
-        updateGreeting();
-        const interval = setInterval(updateGreeting, 60000); // Update every minute
-        return () => clearInterval(interval);
-    }, []);
+    const greeting = useMemo(() => {
+        const hour = time.getHours();
+        if (hour >= 5 && hour < 12) return 'Good morning,';
+        if (hour >= 12 && hour < 17) return 'Good afternoon,';
+        if (hour >= 17 && hour < 21) return 'Good evening,';
+        return 'Good luck working through the night,';
+    }, [time]);
 
     const handleBlur = () => {
         setIsEditing(false);
@@ -44,13 +39,13 @@ export function Greeting() {
     };
 
     return (
-        <div className="greeting-container">
-            <span className="greeting-text">{greeting}</span>
+        <div className="flex items-center gap-2 text-sm whitespace-nowrap absolute left-1/2 -translate-x-1/2 hidden md:flex">
+            <span className="text-muted-foreground">{greeting}</span>
             {isEditing ? (
-                <input
+                <Input
                     ref={inputRef}
                     type="text"
-                    className="name-input"
+                    className="h-6 w-32 px-1 py-0 text-sm border-none border-b rounded-none focus-visible:ring-0 focus-visible:border-primary shadow-none"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     onBlur={handleBlur}
@@ -58,7 +53,7 @@ export function Greeting() {
                 />
             ) : (
                 <span
-                    className="user-name"
+                    className="font-semibold cursor-pointer border-b border-dotted border-primary hover:text-primary transition-colors"
                     onClick={() => setIsEditing(true)}
                     title="Click to edit name"
                 >

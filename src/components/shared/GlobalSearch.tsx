@@ -1,23 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Search } from 'lucide-react';
 import { TOOLS } from '../../config/tools';
-import './GlobalSearch.css';
-
-interface SearchResult {
-    id: string;
-    name: string;
-    category: string;
-    description: string;
-}
+import type { ToolCategory, Tool } from '../../config/tools';
 
 export function GlobalSearch() {
     const [isOpen, setIsOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const inputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
-    // Toggle with Cmd/Ctrl + K
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -28,91 +20,83 @@ export function GlobalSearch() {
                 setIsOpen(false);
             }
         };
+
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
-    // Focus input when open
-    useEffect(() => {
-        if (isOpen) {
-            setTimeout(() => inputRef.current?.focus(), 100);
-            setQuery('');
-            setSelectedIndex(0);
-        }
-    }, [isOpen]);
+    const filteredTools = TOOLS.flatMap((c: ToolCategory) => c.children).filter((t: Tool) =>
+        t.name.toLowerCase().includes(query.toLowerCase()) ||
+        t.description.toLowerCase().includes(query.toLowerCase())
+    ).slice(0, 5); // Limit results
 
-    const results: SearchResult[] = TOOLS.flatMap(category =>
-        category.children
-            .filter(tool =>
-                tool.name.toLowerCase().includes(query.toLowerCase()) ||
-                tool.description.toLowerCase().includes(query.toLowerCase())
-            )
-            .map(tool => ({
-                id: tool.id,
-                name: tool.name,
-                category: category.name,
-                description: tool.description
-            }))
-    ).slice(0, 10); // Limit results
-
-    const handleNavigate = (toolId: string) => {
+    const handleSelect = (toolId: string) => {
         navigate(`/tool/${toolId}`);
         setIsOpen(false);
+        setQuery('');
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'ArrowDown') {
-            setSelectedIndex(i => Math.min(i + 1, results.length - 1));
-        } else if (e.key === 'ArrowUp') {
-            setSelectedIndex(i => Math.max(i - 1, 0));
-        } else if (e.key === 'Enter') {
-            if (results[selectedIndex]) {
-                handleNavigate(results[selectedIndex].id);
+    useEffect(() => {
+        setSelectedIndex(0);
+    }, [query]);
+
+    useEffect(() => {
+        const handleNav = (e: KeyboardEvent) => {
+            if (!isOpen) return;
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                setSelectedIndex(i => Math.min(i + 1, filteredTools.length - 1));
             }
-        }
-    };
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                setSelectedIndex(i => Math.max(i - 1, 0));
+            }
+            if (e.key === 'Enter' && filteredTools[selectedIndex]) {
+                handleSelect(filteredTools[selectedIndex].id);
+            }
+        };
+        window.addEventListener('keydown', handleNav);
+        return () => window.removeEventListener('keydown', handleNav);
+    }, [isOpen, filteredTools, selectedIndex]);
 
     if (!isOpen) return null;
 
     return (
-        <div className="search-overlay" onClick={() => setIsOpen(false)}>
-            <div className="search-modal" onClick={e => e.stopPropagation()}>
-                <div className="search-header">
+        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm" onClick={() => setIsOpen(false)}>
+            <div
+                className="fixed left-[50%] top-[20%] z-50 w-full max-w-lg translate-x-[-50%] gap-4 border bg-background p-0 shadow-lg sm:rounded-lg"
+                onClick={e => e.stopPropagation()}
+            >
+                <div className="flex items-center border-b px-3">
+                    <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                     <input
-                        ref={inputRef}
-                        type="text"
-                        placeholder="Search tools..."
-                        className="search-input-global"
+                        className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder="Type a command or search..."
                         value={query}
-                        onChange={e => { setQuery(e.target.value); setSelectedIndex(0); }}
-                        onKeyDown={handleKeyDown}
+                        onChange={e => setQuery(e.target.value)}
+                        autoFocus
                     />
                 </div>
-                <div className="search-body">
-                    {results.length > 0 ? (
-                        results.map((result, index) => (
+                {filteredTools.length > 0 && (
+                    <div className="max-h-[300px] overflow-y-auto p-1">
+                        {filteredTools.map((tool: Tool, index: number) => (
                             <div
-                                key={result.id}
-                                className={`search-item ${index === selectedIndex ? 'selected' : ''}`}
-                                onClick={() => handleNavigate(result.id)}
-                                onMouseEnter={() => setSelectedIndex(index)}
+                                key={tool.id}
+                                className={`relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none ${index === selectedIndex ? 'bg-accent text-accent-foreground' : ''
+                                    }`}
+                                onClick={() => handleSelect(tool.id)}
                             >
-                                <div className="search-item-main">
-                                    <span className="search-item-name">{result.name}</span>
-                                    <span className="search-item-desc">{result.description}</span>
-                                </div>
-                                <span className="search-item-cat">{result.category}</span>
+                                <span>{tool.name}</span>
+                                <span className="ml-auto text-xs text-muted-foreground">{tool.description}</span>
                             </div>
-                        ))
-                    ) : (
-                        <div className="search-empty">No tools found</div>
-                    )}
-                </div>
-                <div className="search-footer">
-                    <span>Use <b>↑</b> <b>↓</b> to navigate</span>
-                    <span><b>Enter</b> to select</span>
-                    <span><b>Esc</b> to close</span>
-                </div>
+                        ))}
+                    </div>
+                )}
+                {filteredTools.length === 0 && query && (
+                    <div className="py-6 text-center text-sm text-muted-foreground">
+                        No results found.
+                    </div>
+                )}
             </div>
         </div>
     );
