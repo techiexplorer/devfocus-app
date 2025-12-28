@@ -15,6 +15,10 @@ import { CodeMinifier } from './tools/code/CodeMinifier';
 import { CodeBeautifier } from './tools/code/CodeBeautifier';
 import { ColorPicker } from './tools/image/ColorPicker';
 import { ImageResizer } from './tools/image/ImageResizer';
+import { LoremIpsumGenerator } from './tools/productivity/LoremIpsumGenerator';
+import { Stopwatch } from './tools/productivity/Stopwatch';
+import { CountdownTimer } from './tools/productivity/CountdownTimer';
+import { TaskMatrix } from './tools/productivity/TaskMatrix';
 
 export function ToolPage() {
     const { id } = useParams();
@@ -54,6 +58,14 @@ export function ToolPage() {
                 return <ColorPicker tool={tool} />;
             case 'image-resizer':
                 return <ImageResizer tool={tool} />;
+            case 'lorem-ipsum':
+                return <LoremIpsumGenerator tool={tool} />;
+            case 'stopwatch':
+                return <Stopwatch tool={tool} />;
+            case 'countdown-timer':
+                return <CountdownTimer tool={tool} />;
+            case 'task-matrix':
+                return <TaskMatrix tool={tool} />;
             default:
                 return (
                     <div style={{ textAlign: 'center', padding: '4rem' }}>

@@ -15,6 +15,33 @@ Key principles:
 - **Dark/Light Mode:** Full theme support for your preference.
 - **Responsive Design:** Works great on desktop and mobile.
 
+## Implemented Tools
+
+### Text
+- **Markdown Editor**
+- **Text Case Converter**
+- **JSON Formatter and Validator**
+- **Text Encoder/Decoder**
+- **UUID Generator**
+- **Regex Tester**
+
+### Code
+- **Code Minifier**
+- **Code Beautifier/Prettifier**
+- **Hash Generator**
+- **JWT Decoder**
+- **Code Diff Checker**
+
+### Image
+- **Color Picker**
+- **Image Resizer and Cropper**
+
+### Productivity
+- **Lorem Ipsum Generator**
+- **Stopwatch**
+- **Countdown Timer**
+- **Task Prioritization Matrix**
+
 ## Tech Stack
 
 Built with modern web technologies:
