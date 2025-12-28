@@ -28,6 +28,9 @@ import { EncryptionTool } from './tools/security/EncryptionTool';
 import { DataSanitizer } from './tools/security/DataSanitizer';
 import { RestClient } from './tools/networking/RestClient';
 import { IpLookup } from './tools/networking/IpLookup';
+import { ImageOptimizer } from './tools/image/ImageOptimizer';
+import { IconGenerator } from './tools/image/IconGenerator';
+import { ColorPaletteGenerator } from './tools/image/ColorPaletteGenerator';
 
 export function ToolPage() {
     const { id } = useParams();
@@ -93,6 +96,12 @@ export function ToolPage() {
                 return <RestClient tool={tool} />;
             case 'ip-lookup':
                 return <IpLookup tool={tool} />;
+            case 'image-optimizer':
+                return <ImageOptimizer tool={tool} />;
+            case 'icon-generator':
+                return <IconGenerator tool={tool} />;
+            case 'color-palette':
+                return <ColorPaletteGenerator tool={tool} />;
             default:
                 return (
                     <div style={{ textAlign: 'center', padding: '4rem' }}>
