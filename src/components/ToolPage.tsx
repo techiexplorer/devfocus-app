@@ -26,6 +26,8 @@ import { StatisticalCalculator } from './tools/data/StatisticalCalculator';
 import { PasswordGenerator } from './tools/security/PasswordGenerator';
 import { EncryptionTool } from './tools/security/EncryptionTool';
 import { DataSanitizer } from './tools/security/DataSanitizer';
+import { RestClient } from './tools/networking/RestClient';
+import { IpLookup } from './tools/networking/IpLookup';
 
 export function ToolPage() {
     const { id } = useParams();
@@ -87,6 +89,10 @@ export function ToolPage() {
                 return <EncryptionTool tool={tool} />;
             case 'data-sanitizer':
                 return <DataSanitizer tool={tool} />;
+            case 'rest-client':
+                return <RestClient tool={tool} />;
+            case 'ip-lookup':
+                return <IpLookup tool={tool} />;
             default:
                 return (
                     <div style={{ textAlign: 'center', padding: '4rem' }}>

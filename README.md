@@ -53,6 +53,10 @@ Key principles:
 - **Encryption/Decryption Tool**
 - **Data Sanitizer**
 
+### Networking
+- **REST Client**
+- **IP Address Lookup**
+
 ## Tech Stack
 
 Built with modern web technologies:
