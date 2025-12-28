@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { ToolShell } from '../../shared/ToolShell';
 import type { Tool } from '../../../config/tools';
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 export function CodeBeautifier({ tool }: { tool: Tool }) {
     const [input, setInput] = useState('');
-    const [type, setType] = useState<'json'>('json'); // Only JSON reliably supported without heavy libs
+    const [type, setType] = useState<'json'>('json');
     const [output, setOutput] = useState('');
 
     const beautify = () => {
         if (!input.trim()) return;
 
-        // For now, only JSON is "safe" to beautify without a 4MB parser library
-        // The previous JSON Formatter already does this, but we offer it here too for completeness
         try {
             if (type === 'json') {
                 setOutput(JSON.stringify(JSON.parse(input), null, 4));
@@ -23,49 +23,54 @@ export function CodeBeautifier({ tool }: { tool: Tool }) {
 
     return (
         <ToolShell title={tool.name} description={tool.description}>
-            <div className="tool-form-group">
-                <label className="tool-label">Type</label>
-                <div style={{ display: 'flex', gap: '1rem' }}>
-                    <label style={{ display: 'flex', gap: '0.5rem' }}>
-                        <input type="radio" name="beauty-type" checked={type === 'json'} onChange={() => setType('json')} /> JSON
-                    </label>
-                    {/* Future: Add HTML/CSS/JS with lazy-loaded prettier */}
-                    <span style={{ color: 'var(--color-text-dim)', fontSize: '0.8rem' }}>(More languages coming soon)</span>
+            <div className="space-y-6">
+                <div className="space-y-3">
+                    <label className="text-sm font-medium leading-none">Type</label>
+                    <div className="flex gap-4">
+                        <label className="flex items-center gap-2 text-sm cursor-pointer">
+                            <input
+                                type="radio"
+                                name="beauty-type"
+                                checked={type === 'json'}
+                                onChange={() => setType('json')}
+                                className="accent-primary"
+                            />
+                            JSON
+                        </label>
+                        <span className="text-xs text-muted-foreground">(More languages coming soon)</span>
+                    </div>
                 </div>
-            </div>
 
-            <div className="tool-form-group">
-                <label className="tool-label">Input Code</label>
-                <textarea
-                    className="tool-textarea"
-                    rows={10}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                />
-            </div>
-
-            <div className="tool-actions">
-                <button className="btn btn-primary" onClick={beautify}>Beautify</button>
-            </div>
-
-            {output && (
-                <div className="tool-form-group" style={{ marginTop: '2rem' }}>
-                    <label className="tool-label">Beautified Output</label>
-                    <textarea
-                        className="tool-textarea"
-                        rows={15}
-                        value={output}
-                        readOnly
+                <div className="space-y-2">
+                    <label className="text-sm font-medium leading-none">Input Code</label>
+                    <Textarea
+                        rows={10}
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        className="font-mono text-xs"
                     />
-                    <button
-                        className="btn btn-secondary"
-                        style={{ marginTop: '0.5rem', width: 'fit-content' }}
-                        onClick={() => navigator.clipboard.writeText(output)}
-                    >
-                        Copy Output
-                    </button>
                 </div>
-            )}
+
+                <Button onClick={beautify}>Beautify</Button>
+
+                {output && (
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium leading-none">Beautified Output</label>
+                        <Textarea
+                            rows={15}
+                            value={output}
+                            readOnly
+                            className="font-mono text-xs bg-muted"
+                        />
+                        <Button
+                            variant="secondary"
+                            onClick={() => navigator.clipboard.writeText(output)}
+                        >
+                            Copy Output
+                        </Button>
+                    </div>
+                )}
+            </div>
         </ToolShell>
     );
 }
